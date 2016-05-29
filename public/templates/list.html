@@ -1,0 +1,32 @@
+{{ define "list" }}
+{{ template "head" }}
+<div class="inner cover">
+    <h1 class="cover-heading">Newsletter List</h1>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>#</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{ range . }}
+            <tr>
+                <td>{{ .Name }}</td>
+                <td>{{ .Email }}</td>
+                <td>
+                    <a href="/remove_user?id={{ .ID }}">
+                        <button type="button" class="btn btn-danger">Remove</button>
+                    </a>
+                </td>
+            </tr>
+            {{ end }}
+        </tbody>
+    </table>
+    <p class="lead">
+        <a href="/send_email" class="btn btn-lg btn-default">Send Email</a>
+    </p>
+</div>
+{{ template "footer" }}
+{{ end }}
