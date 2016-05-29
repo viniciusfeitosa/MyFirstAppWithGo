@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"log"
 	"net/smtp"
+	"os"
 )
 
 type smtpTemplateData struct {
@@ -16,8 +17,8 @@ type smtpTemplateData struct {
 
 // SendEmail is the function to send email for a list
 func SendEmail(emailList []string) error {
-	from := "email"
-	pass := "senha"
+	from := os.Getenv("EMAIL_FROM")
+	pass := os.Getenv("EMAIL_PASS")
 	to := emailList
 
 	auth := smtp.PlainAuth(
@@ -38,7 +39,6 @@ func SendEmail(emailList []string) error {
 
 	template := template.Must(template.New("emailTemplate").Parse(emailScript()))
 	template.Execute(&buffer, context)
-	log.Println(buffer.String())
 	err := smtp.SendMail("smtp.gmail.com:587", auth, from, to, buffer.Bytes())
 	if err != nil {
 		log.Fatal("Send email error:", err.Error())
